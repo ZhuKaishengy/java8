@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * java8内置4大核心函数式接口
@@ -29,7 +30,7 @@ public class CoreInterfaceTest<T,R> {
     /**
      * Consumer：消费型接口
      * 特点，有入参无返回值，处理结果无法返回，只能是处理过程中改变原有参数，这个参数的改变无法赋给内部类之外的变量
-     * 适合处理集合，对象，这种改变重新作用于输入值的
+     * 适合处理**集合，对象**，这种改变重新作用于输入值的
      * @param consumer consumer
      * @param t t
      */
@@ -97,6 +98,32 @@ public class CoreInterfaceTest<T,R> {
     }
 
     /**
+     * 可以使用supplier或者function
+     */
+    @Test
+    public void testConsume1Again() {
+        String word = "abcdef";
+        String str1 = this.substrSupplier(() -> word.substring(0, 1));
+        String str2 = this.substrFunc(word, str -> str.substring(0, 1));
+        System.out.println(str1);
+        System.out.println(str2);
+    }
+
+    /**
+     * supplier
+     */
+    private String substrSupplier(Supplier<String> supplier){
+        return supplier.get();
+    }
+
+    /**
+     * function
+     */
+    private String substrFunc(String source, Function<String,String> function){
+        return function.apply(source);
+    }
+
+    /**
      * 使用consumer消费对象，修改对象的属性，传入的值也发生变化
      */
     @Test
@@ -131,6 +158,16 @@ public class CoreInterfaceTest<T,R> {
             list.removeIf(str -> Objects.equals("haha",str));
         } );
         System.out.println(strs);
+    }
+
+    /**
+     * 集合的操作一般使用stream api
+     */
+    @Test
+    public void testStream(){
+        List<String> result = strs.stream().filter(name -> !Objects.equals(name, "sjx"))
+                .collect(Collectors.toList());
+        System.out.println(result);
     }
 
     @Test

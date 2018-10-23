@@ -2,7 +2,6 @@ package com.percent.date;
 
 import org.junit.Test;
 
-import javax.sql.PooledConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -11,8 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.*;
-
-import static java.util.concurrent.Executors.*;
 
 /**
  * @author: kaisheng.zhu

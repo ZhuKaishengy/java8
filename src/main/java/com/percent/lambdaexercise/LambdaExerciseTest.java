@@ -5,6 +5,10 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.function.ToLongBiFunction;
+import java.util.function.UnaryOperator;
 
 /**
  * @author: kaisheng.zhu
@@ -43,7 +47,7 @@ public class LambdaExerciseTest {
     @Test
     public void test2() {
 
-        String result = this.handleStr("   haha   ", str -> str.trim());
+        String result = this.handleStr("   haha   ", String::trim);
         System.out.println(result);
     }
 
@@ -55,6 +59,44 @@ public class LambdaExerciseTest {
      */
     private String handleStr(String str,StrHandler handler){
         return handler.handle(str);
+    }
+    /**
+     * 声明一个函数式接口用于字符串的处理
+     */
+    @Test
+    public void test4() {
+        String str = "haha";
+        String result = this.operateStr(() -> str.substring(0,1));
+        System.out.println(result);
+    }
+    /**
+     * 声明一个函数式接口用于字符串的处理
+     */
+    @Test
+    public void test5() {
+        String str = "haha";
+        String result = this.operateStr(str,str1 -> str1.substring(0,1));
+        System.out.println(result);
+    }
+
+    /**
+     * 使用供给型接口
+     * @param supplier
+     * @return
+     */
+    private String operateStr(Supplier<String> supplier) {
+        return supplier.get();
+    }
+
+    /**
+     * 使用函数型接口
+     * @param str
+     * @param operator
+     * @return
+     */
+    private String operateStr(String str, UnaryOperator<String> operator) {
+
+        return operator.apply(str);
     }
 
     /**
@@ -69,7 +111,31 @@ public class LambdaExerciseTest {
         System.out.println(result2);
     }
 
+    /**
+     * 自定义函数式接口
+     * @param l1
+     * @param l2
+     * @param calculator
+     * @return
+     */
     private Long longCalcul(Long l1, Long l2, Calculator<Long, Long> calculator) {
         return calculator.calcul(l1,l2);
     }
+
+    /**
+     * 一般我们都会使用jdk提供的函数式接口
+     * 特点：必须有入参，所以定义的方法一定有参数
+     * @return
+     */
+    private Long calculate(Long num1, Long num2, ToLongBiFunction<Long,Long> function){
+        return function.applyAsLong(num1,num2);
+    }
+
+    @Test
+    public void test6() {
+
+        Long result1 = this.calculate(100L, 200L, (l1, l2) -> l1 + l2);
+        System.out.println(result1);
+    }
+
 }
