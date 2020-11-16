@@ -7,7 +7,7 @@ import lombok.experimental.SuperBuilder;
 /**
  * @author : zhukaishengy
  * @date : 2020/11/16 10:22
- * @Description : TODO
+ * @Description : BO
  * @version : v1.0
  */
 @SuperBuilder
